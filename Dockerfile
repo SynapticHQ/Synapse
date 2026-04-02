@@ -15,3 +15,4 @@ RUN mkdir -p /app/logs && chown -R synapse:synapse /app/logs
 USER synapse
 EXPOSE 3000
 CMD ["node", "dist/index.js"]
+
