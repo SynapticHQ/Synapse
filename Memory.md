@@ -23,3 +23,4 @@ Added volume_auth_check as mandatory pre-filter.
 - Executor's `rank_actions` tool is intercepted but not yet executed on-chain
 - Dashboard auto-refresh at 10s is aggressive for high-frequency cycles
 - OHLCV data in market-agent currently uses Jupiter price + simulated candles — replace with a real OHLCV source (Birdeye, Pyth history)
+
