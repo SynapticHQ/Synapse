@@ -10,3 +10,4 @@
 - Bun HTTP dashboard at `localhost:3000` with auto-refresh
 - Structured JSONL audit trail
 - vitest unit tests for router
+
