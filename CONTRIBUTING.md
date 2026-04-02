@@ -26,3 +26,4 @@ See `CLAUDE.md` → "Adding a new agent".
 ## License
 
 MIT
+
