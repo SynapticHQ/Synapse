@@ -48,3 +48,4 @@ bun run lint      # tsc type check
 - No `console.log` — use `createLogger(component)`
 - Router always runs before any agent
 - Executor always runs last if included in routing
+
