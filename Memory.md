@@ -24,3 +24,4 @@ Added volume_auth_check as mandatory pre-filter.
 - Dashboard auto-refresh at 10s is aggressive for high-frequency cycles
 - OHLCV data in market-agent currently uses Jupiter price + simulated candles — replace with a real OHLCV source (Birdeye, Pyth history)
 
+
