@@ -46,3 +46,4 @@ export class MCPGateway {
     return Array.from(this.handlers.keys());
   }
 }
+
