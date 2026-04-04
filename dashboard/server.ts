@@ -35,6 +35,7 @@ export function startDashboard(orchestrator: Orchestrator): void {
                   success: r.success,
                   toolCalls: r.toolCallCount,
                   durationMs: r.durationMs,
+                  tokenUsage: r.tokenUsage ?? null,
                   output: r.output.slice(0, 300),
                 })),
               }
@@ -88,7 +89,7 @@ export function startDashboard(orchestrator: Orchestrator): void {
       .map(
         (r) => `<div class="agent-row">
       <span class="${r.agentId === "executor" ? "green" : r.agentId === "market-agent" ? "purple" : "blue"}">${r.agentId}</span>
-      <span style="color:#484f58">${r.toolCallCount} tools · ${r.durationMs}ms</span>
+      <span style="color:#484f58">${r.toolCallCount} tools · ${r.durationMs}ms · ${r.tokenUsage ? `${r.tokenUsage.inputTokens + r.tokenUsage.outputTokens} tok` : "—"}</span>
       <span class="${r.success ? "green" : "yellow"}">${r.success ? "✓" : "✗"}</span>
     </div>`
       )
