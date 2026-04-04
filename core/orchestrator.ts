@@ -110,11 +110,22 @@ export class Orchestrator {
     this.cycleCount++;
     this.lastCycle = cycle;
 
+    // Sum token usage across all agent results so the orchestrator log shows full
+    // cycle cost — useful for tracking API spend without aggregating externally.
+    const cycleInputTokens = cycle.results.reduce(
+      (sum, r) => sum + (r.tokenUsage?.inputTokens ?? 0), 0
+    );
+    const cycleOutputTokens = cycle.results.reduce(
+      (sum, r) => sum + (r.tokenUsage?.outputTokens ?? 0), 0
+    );
+
     const duration = ((cycle.completedAt - cycle.startedAt) / 1000).toFixed(1);
     log.info("Cycle complete", {
       cycleId: cycle.cycleId,
       agents: cycle.agentInvocations,
       durationSec: duration,
+      totalInputTokens: cycleInputTokens,
+      totalOutputTokens: cycleOutputTokens,
     });
 
     return cycle;
