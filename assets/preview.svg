@@ -1,103 +1,170 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="800" height="460" viewBox="0 0 800 460">
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="540" viewBox="0 0 900 540">
   <defs>
     <style>
       text { font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace; }
-      .dot-red { fill: #ff5f57; }
-      .dot-yellow { fill: #febc2e; }
-      .dot-green { fill: #28c840; }
+      .mono { font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace; }
     </style>
-    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#161b22"/>
-      <stop offset="100%" stop-color="#0d1117"/>
-    </linearGradient>
-    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#1f2937"/>
-      <stop offset="100%" stop-color="#111827"/>
-    </linearGradient>
   </defs>
 
-  <!-- Outer glow border -->
-  <rect x="1" y="1" width="798" height="458" rx="10" fill="none" stroke="#30363d" stroke-width="1.5"/>
+  <!-- Background -->
+  <rect width="900" height="540" fill="#0d1117"/>
 
-  <!-- Main background -->
-  <rect width="800" height="460" rx="10" fill="url(#bgGrad)"/>
+  <!-- Title bar -->
+  <rect width="900" height="42" fill="#161b22"/>
+  <rect width="900" height="1" y="42" fill="#30363d"/>
+  <circle cx="18" cy="21" r="6" fill="#ff5f57"/>
+  <circle cx="36" cy="21" r="6" fill="#febc2e"/>
+  <circle cx="54" cy="21" r="6" fill="#28c840"/>
+  <text x="450" y="26" fill="#58a6ff" font-size="13" font-weight="bold" text-anchor="middle">⬡ Synapse  —  MCP Orchestrator</text>
+  <text x="820" y="26" fill="#3fb950" font-size="11" text-anchor="middle">● RUNNING</text>
+  <text x="820" y="38" fill="#484f58" font-size="10" text-anchor="middle">cycle #47</text>
 
-  <!-- Header bar -->
-  <rect width="800" height="44" rx="10" fill="url(#headerGrad)"/>
-  <rect y="34" width="800" height="10" fill="#111827"/>
+  <!-- ─── LEFT: Routing panel ───────────────────────────────── -->
+  <rect x="12" y="54" width="258" height="200" rx="4" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+  <text x="22" y="72" fill="#484f58" font-size="10" letter-spacing="1">ROUTER  ·  LAST DISPATCH</text>
 
-  <!-- Window dots -->
-  <circle cx="22" cy="22" r="7" class="dot-red"/>
-  <circle cx="44" cy="22" r="7" class="dot-yellow"/>
-  <circle cx="66" cy="22" r="7" class="dot-green"/>
+  <!-- Router prompt -->
+  <text x="22" y="90" fill="#8b949e" font-size="10">Task:</text>
+  <text x="22" y="104" fill="#e6edf3" font-size="10">"Analyze top Raydium pools and</text>
+  <text x="22" y="117" fill="#e6edf3" font-size="10"> recommend rebalance actions"</text>
 
-  <!-- Header title -->
-  <text x="400" y="27" text-anchor="middle" fill="#6b7280" font-size="12" letter-spacing="2">SYNAPSE  ·  MCP ORCHESTRATOR</text>
+  <rect x="12" y="125" width="258" height="1" fill="#21262d"/>
 
-  <!-- Agent status bar -->
-  <rect x="16" y="56" width="768" height="34" rx="5" fill="#1c2128"/>
-  <text x="28" y="79" fill="#3fb950" font-size="11">● 3 agents active</text>
-  <text x="155" y="79" fill="#484f58" font-size="11">|</text>
-  <text x="168" y="79" fill="#58a6ff" font-size="11">47 patterns</text>
-  <text x="268" y="79" fill="#484f58" font-size="11">|</text>
-  <text x="281" y="79" fill="#f0883e" font-size="11">12 warnings</text>
-  <text x="385" y="79" fill="#484f58" font-size="11">|</text>
-  <text x="398" y="79" fill="#8b949e" font-size="11">203 outcomes</text>
-  <text x="620" y="79" fill="#484f58" font-size="11" text-anchor="end">cycle #47  ·  10m interval</text>
-  <text x="760" y="79" fill="#3fb950" font-size="11" text-anchor="end">RUNNING</text>
+  <text x="22" y="141" fill="#484f58" font-size="10">SELECTED AGENTS</text>
+  <!-- Agent badges -->
+  <rect x="22" y="148" width="78" height="18" rx="3" fill="#0d419d"/>
+  <text x="61" y="161" fill="#58a6ff" font-size="10" text-anchor="middle">defi-agent</text>
+  <rect x="108" y="148" width="82" height="18" rx="3" fill="#3d1f6b"/>
+  <text x="149" y="161" fill="#bc8cff" font-size="10" text-anchor="middle">market-agent</text>
+  <rect x="198" y="148" width="60" height="18" rx="3" fill="#0f3d1f"/>
+  <text x="228" y="161" fill="#3fb950" font-size="10" text-anchor="middle">executor</text>
 
-  <!-- Task section -->
-  <text x="28" y="118" fill="#484f58" font-size="11">INCOMING TASK</text>
-  <rect x="16" y="126" width="768" height="36" rx="5" fill="#161b22" stroke="#30363d" stroke-width="1"/>
-  <text x="28" y="149" fill="#e6edf3" font-size="12">"Analyze top Meteora DLMM pools, assess market conditions, and return a ranked action list."</text>
+  <text x="22" y="186" fill="#484f58" font-size="10">Reasoning:</text>
+  <text x="22" y="199" fill="#8b949e" font-size="9.5">Pool analysis requires on-chain state</text>
+  <text x="22" y="211" fill="#8b949e" font-size="9.5">+ market context for valid actions.</text>
 
-  <!-- Router -->
-  <text x="28" y="186" fill="#484f58" font-size="11">ROUTER  →  AGENT DISPATCH</text>
-  <rect x="16" y="194" width="768" height="28" rx="5" fill="#1c2128"/>
-  <text x="28" y="213" fill="#bc8cff" font-size="12">→</text>
-  <text x="46" y="213" fill="#8b949e" font-size="12">Dispatching to:</text>
-  <rect x="168" y="200" width="82" height="16" rx="3" fill="#1f3a5c"/>
-  <text x="209" y="213" fill="#58a6ff" font-size="11" text-anchor="middle">defi-agent</text>
-  <rect x="262" y="200" width="96" height="16" rx="3" fill="#2d2638"/>
-  <text x="310" y="213" fill="#bc8cff" font-size="11" text-anchor="middle">market-agent</text>
-  <rect x="370" y="200" width="82" height="16" rx="3" fill="#1a3a2a"/>
-  <text x="411" y="213" fill="#3fb950" font-size="11" text-anchor="middle">executor</text>
+  <!-- Confidence bar -->
+  <text x="22" y="230" fill="#484f58" font-size="10">Confidence</text>
+  <text x="240" y="230" fill="#3fb950" font-size="10" text-anchor="end">0.87</text>
+  <rect x="22" y="234" width="246" height="6" rx="3" fill="#21262d"/>
+  <rect x="22" y="234" width="214" height="6" rx="3" fill="#3fb950"/>
+  <rect x="22" y="234" width="1" height="6" fill="#30363d"/>
 
-  <!-- Agent rows -->
-  <!-- defi-agent -->
-  <rect x="16" y="236" width="768" height="54" rx="5" fill="#161b22" stroke="#1f3a5c" stroke-width="1"/>
-  <rect x="16" y="236" width="4" height="54" rx="2" fill="#58a6ff"/>
-  <text x="32" y="256" fill="#58a6ff" font-size="12" font-weight="bold">defi-agent</text>
-  <rect x="118" y="244" width="52" height="14" rx="3" fill="#1f3a5c"/>
-  <text x="144" y="255" fill="#58a6ff" font-size="10" text-anchor="middle">ACTIVE</text>
-  <text x="32" y="278" fill="#6b7280" font-size="11">Tools: meteora_get_pool_state · meteora_get_bin_array · volume_authenticity_check · jupiter_get_price</text>
-  <text x="748" y="256" fill="#3fb950" font-size="11" text-anchor="end">✓ 6 pools fetched  142ms</text>
+  <rect x="12" y="246" width="258" height="8" rx="0" fill="#0d1117" opacity="0"/>
 
-  <!-- market-agent -->
-  <rect x="16" y="300" width="768" height="54" rx="5" fill="#161b22" stroke="#2d2638" stroke-width="1"/>
-  <rect x="16" y="300" width="4" height="54" rx="2" fill="#bc8cff"/>
-  <text x="32" y="320" fill="#bc8cff" font-size="12" font-weight="bold">market-agent</text>
-  <rect x="134" y="308" width="52" height="14" rx="3" fill="#2d2638"/>
-  <text x="160" y="319" fill="#bc8cff" font-size="10" text-anchor="middle">ACTIVE</text>
-  <text x="32" y="342" fill="#6b7280" font-size="11">Tools: get_funding_rates · get_ohlcv · get_orderbook_depth · trend_classifier</text>
-  <text x="748" y="320" fill="#3fb950" font-size="11" text-anchor="end">✓ Trend: BULLISH  891ms</text>
+  <!-- ─── CENTER: Agent pipeline ────────────────────────────── -->
+  <rect x="280" y="54" width="340" height="310" rx="4" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+  <text x="290" y="72" fill="#484f58" font-size="10" letter-spacing="1">AGENT PIPELINE  ·  CYCLE #47</text>
 
-  <!-- executor -->
-  <rect x="16" y="364" width="768" height="54" rx="5" fill="#161b22" stroke="#1a3a2a" stroke-width="1"/>
-  <rect x="16" y="364" width="4" height="54" rx="2" fill="#3fb950"/>
-  <text x="32" y="384" fill="#3fb950" font-size="12" font-weight="bold">executor</text>
-  <rect x="100" y="372" width="68" height="14" rx="3" fill="#1a3a2a"/>
-  <text x="134" y="383" fill="#3fb950" font-size="10" text-anchor="middle">REASONING</text>
-  <text x="32" y="406" fill="#6b7280" font-size="11">Aggregating defi-agent + market-agent context · evaluating 3 candidate actions · confidence gate pending</text>
+  <!-- defi-agent row -->
+  <rect x="290" y="80" width="320" height="74" rx="3" fill="#0d1117" stroke="#0d419d" stroke-width="1"/>
+  <text x="300" y="96" fill="#58a6ff" font-size="11" font-weight="bold">defi-agent</text>
+  <text x="560" y="96" fill="#484f58" font-size="10" text-anchor="end">4 tool calls  ·  3,241 ms</text>
+  <text x="300" y="110" fill="#484f58" font-size="9.5">input: 1,847 tok  /  output: 392 tok</text>
 
-  <!-- Blinking cursor on executor -->
-  <rect x="748" y="374" width="8" height="14" rx="1" fill="#3fb950" opacity="0.8"/>
+  <text x="300" y="126" fill="#8b949e" font-size="9.5">↳ get_pool_info(BONK/SOL)  →  TVL $2.41M, 24h vol $847k</text>
+  <text x="300" y="139" fill="#8b949e" font-size="9.5">↳ get_pool_info(WIF/USDC)  →  TVL $1.87M, 24h vol $512k</text>
+  <text x="300" y="149" fill="#3fb950" font-size="9.5">✓ complete</text>
+
+  <!-- arrow -->
+  <line x1="450" y1="154" x2="450" y2="166" stroke="#30363d" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <polygon points="446,165 454,165 450,172" fill="#30363d"/>
+
+  <!-- market-agent row -->
+  <rect x="290" y="173" width="320" height="74" rx="3" fill="#0d1117" stroke="#3d1f6b" stroke-width="1"/>
+  <text x="300" y="189" fill="#bc8cff" font-size="11" font-weight="bold">market-agent</text>
+  <text x="560" y="189" fill="#484f58" font-size="10" text-anchor="end">3 tool calls  ·  2,887 ms</text>
+  <text x="300" y="203" fill="#484f58" font-size="9.5">input: 2,134 tok  /  output: 441 tok</text>
+
+  <text x="300" y="219" fill="#8b949e" font-size="9.5">↳ get_funding_rate(BONK-PERP)  →  +0.012% / 8h (bullish)</text>
+  <text x="300" y="232" fill="#8b949e" font-size="9.5">↳ classify_trend(BONK/SOL)  →  UPTREND (3d), RSI 58</text>
+  <text x="300" y="242" fill="#3fb950" font-size="9.5">✓ complete</text>
+
+  <!-- arrow -->
+  <line x1="450" y1="247" x2="450" y2="260" stroke="#30363d" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <polygon points="446,259 454,259 450,266" fill="#30363d"/>
+
+  <!-- executor row -->
+  <rect x="290" y="267" width="320" height="74" rx="3" fill="#0d1117" stroke="#0f3d1f" stroke-width="1"/>
+  <text x="300" y="283" fill="#3fb950" font-size="11" font-weight="bold">executor</text>
+  <text x="560" y="283" fill="#484f58" font-size="10" text-anchor="end">1 tool call  ·  1,943 ms</text>
+  <text x="300" y="297" fill="#484f58" font-size="9.5">input: 3,891 tok  /  output: 287 tok</text>
+
+  <text x="300" y="313" fill="#8b949e" font-size="9.5">↳ rank_actions(3 actions)  →  ENTER BONK/SOL, HOLD WIF</text>
+  <text x="300" y="326" fill="#8b949e" font-size="9.5">   dropped 1 action (conf 0.41 &lt; threshold 0.65)</text>
+  <text x="300" y="336" fill="#3fb950" font-size="9.5">✓ complete</text>
+
+  <!-- Cycle total bar -->
+  <rect x="280" y="370" width="340" height="1" fill="#30363d"/>
+  <text x="290" y="386" fill="#484f58" font-size="10">Cycle total</text>
+  <text x="610" y="386" fill="#e6edf3" font-size="10" text-anchor="end">8,071 ms  ·  9,992 tok</text>
+
+  <!-- ─── RIGHT: Action plan ────────────────────────────────── -->
+  <rect x="630" y="54" width="258" height="310" rx="4" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+  <text x="640" y="72" fill="#484f58" font-size="10" letter-spacing="1">EXECUTOR OUTPUT</text>
+
+  <!-- Action 1 — ENTER -->
+  <rect x="640" y="80" width="238" height="80" rx="3" fill="#0d1117" stroke="#3fb950" stroke-width="1"/>
+  <text x="650" y="96" fill="#3fb950" font-size="10" font-weight="bold">ENTER</text>
+  <text x="858" y="96" fill="#3fb950" font-size="10" text-anchor="end">rank #1</text>
+  <text x="650" y="110" fill="#e6edf3" font-size="10">BONK/SOL  ·  Raydium CLMM</text>
+  <text x="650" y="122" fill="#8b949e" font-size="9">Bullish funding + uptrend with</text>
+  <text x="650" y="133" fill="#8b949e" font-size="9">strong vol authenticity score.</text>
+  <text x="650" y="152" fill="#e6edf3" font-size="9.5">confidence</text>
+
+  <!-- confidence bar action 1 -->
+  <rect x="650" y="154" width="238" height="5" rx="2" fill="#21262d"/>
+  <rect x="650" y="154" width="195" height="5" rx="2" fill="#3fb950"/>
+  <text x="876" y="159" fill="#3fb950" font-size="9" text-anchor="end">0.82</text>
+
+  <!-- Action 2 — HOLD -->
+  <rect x="640" y="170" width="238" height="64" rx="3" fill="#0d1117" stroke="#484f58" stroke-width="1"/>
+  <text x="650" y="186" fill="#8b949e" font-size="10" font-weight="bold">HOLD</text>
+  <text x="858" y="186" fill="#484f58" font-size="10" text-anchor="end">rank #2</text>
+  <text x="650" y="200" fill="#e6edf3" font-size="10">WIF/USDC  ·  Orca Whirlpool</text>
+  <text x="650" y="212" fill="#8b949e" font-size="9">Vol declined 34% vs prior week.</text>
+  <text x="858" y="226" fill="#8b949e" font-size="9" text-anchor="end">conf 0.71</text>
+
+  <!-- dropped action -->
+  <rect x="640" y="244" width="238" height="38" rx="3" fill="#0d1117" stroke="#21262d" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="650" y="260" fill="#484f58" font-size="9.5">⊘  REBALANCE BONK/WIF</text>
+  <text x="650" y="274" fill="#484f58" font-size="9">dropped — confidence 0.41 below 0.65</text>
+
+  <!-- Market assessment -->
+  <rect x="630" y="292" width="258" height="1" fill="#30363d"/>
+  <text x="640" y="308" fill="#484f58" font-size="10" letter-spacing="1">MARKET ASSESSMENT</text>
+  <text x="640" y="323" fill="#8b949e" font-size="9.5">Solana meme sector showing momentum with</text>
+  <text x="640" y="336" fill="#8b949e" font-size="9.5">positive funding across BONK, WIF. BONK/SOL</text>
+  <text x="640" y="349" fill="#8b949e" font-size="9.5">on Raydium is the highest-conviction entry.</text>
+  <text x="640" y="362" fill="#8b949e" font-size="9.5">Recommend 60/40 split between pools.</text>
+
+  <!-- ─── BOTTOM: Context store + alerts ──────────────────────── -->
+  <rect x="12" y="390" width="876" height="136" rx="4" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+  <text x="22" y="407" fill="#484f58" font-size="10" letter-spacing="1">SHARED CONTEXT  ·  ContextStore</text>
+
+  <!-- Recent decisions -->
+  <text x="22" y="424" fill="#484f58" font-size="10">Recent decisions</text>
+  <text x="22" y="438" fill="#8b949e" font-size="9.5">· [f3a1b2] executor: ENTER BONK/SOL conf 0.82, HOLD WIF/USDC conf 0.71</text>
+  <text x="22" y="450" fill="#8b949e" font-size="9.5">· [d9c4e1] executor: MONITOR JUP/USDC — insufficient vol data</text>
+  <text x="22" y="462" fill="#8b949e" font-size="9.5">· [a2f8c7] market-agent: BONK uptrend confirmed, funding +0.011% / 8h</text>
+  <text x="22" y="474" fill="#484f58" font-size="9.5">· [b1e3d8] defi-agent: TVL $2.41M BONK/SOL, vol $847k 24h</text>
+  <text x="22" y="486" fill="#484f58" font-size="9.5">· [907fc2] router: dispatched defi+market+executor (conf 0.87)</text>
+
+  <!-- Context size bar -->
+  <text x="640" y="424" fill="#484f58" font-size="10">Context size</text>
+  <text x="876" y="424" fill="#58a6ff" font-size="10" text-anchor="end">2,847 / 4,000 chars</text>
+  <rect x="640" y="428" width="238" height="6" rx="3" fill="#21262d"/>
+  <rect x="640" y="428" width="170" height="6" rx="3" fill="#58a6ff"/>
+
+  <text x="640" y="450" fill="#484f58" font-size="10">Alerts</text>
+  <text x="876" y="450" fill="#3fb950" font-size="10" text-anchor="end">none</text>
+  <text x="640" y="464" fill="#484f58" font-size="10">Cycles</text>
+  <text x="876" y="464" fill="#e6edf3" font-size="10" text-anchor="end">47</text>
+  <text x="640" y="478" fill="#484f58" font-size="10">Uptime</text>
+  <text x="876" y="478" fill="#e6edf3" font-size="10" text-anchor="end">3h 14m</text>
+  <text x="640" y="492" fill="#484f58" font-size="10">Total tokens</text>
+  <text x="876" y="492" fill="#e6edf3" font-size="10" text-anchor="end">469,424</text>
 
   <!-- Footer -->
-  <rect x="0" y="430" width="800" height="30" rx="0" fill="#111827"/>
-  <rect x="0" y="430" width="800" height="1" fill="#30363d"/>
-  <rect x="0" y="450" width="800" height="10" rx="10" fill="#111827"/>
-  <text x="28" y="450" fill="#484f58" font-size="10">Claude Sonnet 4.5  ·  Bun 1.2  ·  Solana</text>
-  <text x="772" y="450" fill="#484f58" font-size="10" text-anchor="end">DeltaLogicLabs/synapse</text>
+  <text x="450" y="520" fill="#30363d" font-size="10" text-anchor="middle">Dashboard  ·  localhost:3000  ·  refreshes every 10s</text>
 </svg>
-
