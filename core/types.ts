@@ -41,6 +41,8 @@ export interface AgentResult {
   durationMs: number;
   success: boolean;
   error?: string;
+  // Cumulative token usage across all turns in the agent loop
+  tokenUsage?: { inputTokens: number; outputTokens: number };
 }
 
 // ─── Orchestrator cycle ───────────────────────────────────────────────────────
