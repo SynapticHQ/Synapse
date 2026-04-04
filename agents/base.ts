@@ -31,8 +31,19 @@ export abstract class BaseAgent {
 
     let output = "";
     let toolCallCount = 0;
+    // Accumulate token usage across all turns in this agent's loop
+    let totalInputTokens = 0;
+    let totalOutputTokens = 0;
 
     agentLoop: while (true) {
+      // Enforce per-agent timeout: if we're past the deadline, break out rather than
+      // making another API call that will never complete within the cycle budget.
+      if (Date.now() - start > config.AGENT_TIMEOUT_MS) {
+        this.log.warn("Agent timeout exceeded", { taskId, elapsedMs: Date.now() - start });
+        output = "[Agent timed out — partial results only]";
+        break agentLoop;
+      }
+
       const response = await this.client.messages.create({
         model: config.CLAUDE_MODEL,
         max_tokens: config.MAX_AGENT_TOKENS,
@@ -40,6 +51,9 @@ export abstract class BaseAgent {
         tools: this.getTools(),
         messages,
       });
+
+      totalInputTokens += response.usage.input_tokens;
+      totalOutputTokens += response.usage.output_tokens;
 
       if (response.stop_reason === "end_turn") {
         const textBlock = response.content.find((b): b is Anthropic.TextBlock => b.type === "text");
@@ -82,7 +96,13 @@ export abstract class BaseAgent {
     }
 
     const durationMs = Date.now() - start;
-    this.log.info("Agent complete", { taskId, toolCallCount, durationMs });
+    this.log.info("Agent complete", {
+      taskId,
+      toolCallCount,
+      durationMs,
+      inputTokens: totalInputTokens,
+      outputTokens: totalOutputTokens,
+    });
 
     return {
       agentId: this.definition.id,
@@ -91,6 +111,7 @@ export abstract class BaseAgent {
       toolCallCount,
       durationMs,
       success: true,
+      tokenUsage: { inputTokens: totalInputTokens, outputTokens: totalOutputTokens },
     };
   }
 }
