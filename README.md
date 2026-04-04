@@ -94,12 +94,60 @@ The router will automatically start considering your new agent for task dispatch
 
 ---
 
+## Technical Spec
+
+### Forced Dispatch — `tool_choice: "any"`
+
+The router uses `tool_choice: { type: "any" }` on its Claude call, which forces the model to call `dispatch_agents` rather than returning a plain text response. Without this, ambiguous tasks ("what's happening in DeFi today?") may elicit a prose answer instead of a routing decision, causing the fallback to over-dispatch all three agents and waste tokens.
+
+```typescript
+tool_choice: { type: "any" }
+// router MUST call dispatch_agents — no text-only escape hatch
+```
+
+### Context Accumulation Pattern
+
+Each agent in the sequence receives the **prior agents' outputs as context**, not just the original prompt. The executor's input is:
+
+```
+sharedContext          ← ContextStore.toPromptContext()
+  + defi-agent output  ← raw on-chain numbers
+  + market-agent output ← trend/funding interpretation
+  + original task prompt
+```
+
+This lets the executor synthesize without needing its own tool calls to fetch on-chain state — it only needs `rank_actions` to emit its verdict.
+
+### Context Size Guard
+
+`ContextStore.toPromptContext()` truncates at 4,000 characters. In long-running sessions, `recentDecisions` accumulates 50 entries — even at 100 chars each that's 5,000 chars of prior decisions injected into every agent's input. The guard prevents token bleed from old decisions crowding out the actual task.
+
+### Token Budget Tracking
+
+Token usage is accumulated across all turns in each agent's multi-turn loop and returned in `AgentResult.tokenUsage`. The orchestrator sums this at cycle end:
+
+```typescript
+const cycleInputTokens = cycle.results.reduce((sum, r) => sum + (r.tokenUsage?.inputTokens ?? 0), 0);
+```
+
+This lets operators track actual API spend per cycle without external billing aggregation.
+
+### Agent Timeout
+
+`AGENT_TIMEOUT_MS` (default 60s) bounds each agent's execution. The check runs at the top of the `while (true)` agent loop — before each API call — so a hung previous turn doesn't trap the orchestrator waiting for a response that will arrive after the cycle window closes.
+
+### Confidence Gate on Routing
+
+If the router's own `confidence` field falls below `CONFIDENCE_THRESHOLD`, the executor is dropped from the dispatch list. This prevents action plans from being generated when the task scope is ambiguous — the executor's `rank_actions` output is only reliable when defi-agent and market-agent have been given a well-scoped task.
+
+---
+
 ## Stack
 
 - **Runtime**: Bun 1.2
 - **Agents**: Claude Agent SDK — individual `stop_reason === "tool_use"` loops per agent
-- **Routing**: Claude Sonnet 4.5 with `tool_choice: "any"` — forced dispatch decision
-- **Dashboard**: Bun native HTTP server
+- **Routing**: Claude with `tool_choice: "any"` — forced dispatch decision
+- **Dashboard**: Bun native HTTP server with token usage per agent
 
 ---
 
