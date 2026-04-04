@@ -19,6 +19,11 @@ const ConfigSchema = z.object({
     .transform((v) => v === "true")
     .default("true"),
 
+  // Agent execution
+  // Timeout per agent run. A slow Claude API response (e.g. during high load) will
+  // stall the entire orchestrator cycle — this cap keeps cycle latency bounded.
+  AGENT_TIMEOUT_MS: z.coerce.number().min(5000).default(60000),
+
   // Task queue
   MAX_CONCURRENT_TASKS: z.coerce.number().min(1).default(3),
 });
