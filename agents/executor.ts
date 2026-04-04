@@ -56,7 +56,26 @@ If data is insufficient or contradictory, say so and recommend HOLD.`,
 
   async executeTool(name: string, input: Record<string, unknown>): Promise<unknown> {
     if (name === "rank_actions") {
-      return { received: true, actions: input["actions"], assessment: input["market_assessment"] };
+      const actions = input["actions"] as Array<{ confidence: number; action: string; [k: string]: unknown }>;
+
+      // Strip any actions below the configured confidence threshold before logging.
+      // The executor may still surface LOW confidence actions in its text output —
+      // this filter only affects what gets recorded as actionable in the result object.
+      const { config } = await import("../core/config.js");
+      const actionable = actions.filter((a) => a.confidence >= config.CONFIDENCE_THRESHOLD);
+
+      if (actionable.length < actions.length) {
+        const dropped = actions.length - actionable.length;
+        // Log via console — logger not available in static context here
+        console.warn(`[executor] dropped ${dropped} action(s) below confidence threshold ${config.CONFIDENCE_THRESHOLD}`);
+      }
+
+      return {
+        received: true,
+        actions: actionable,
+        droppedLowConfidence: actions.length - actionable.length,
+        assessment: input["market_assessment"],
+      };
     }
     throw new Error(`Unknown tool: ${name}`);
   }
