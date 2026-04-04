@@ -87,9 +87,21 @@ export class TaskRouter {
       confidence: input.confidence,
     });
 
+    // If the router's own confidence is below threshold, drop the executor from
+    // the selected set. Executing on uncertain routing is worse than skipping —
+    // the executor depends on well-scoped defi/market context to produce useful output.
+    let selectedAgents = input.selected_agents;
+    if (input.confidence < config.CONFIDENCE_THRESHOLD && selectedAgents.includes("executor")) {
+      log.warn("Low routing confidence — dropping executor from dispatch", {
+        confidence: input.confidence,
+        threshold: config.CONFIDENCE_THRESHOLD,
+      });
+      selectedAgents = selectedAgents.filter((id) => id !== "executor") as AgentId[];
+    }
+
     return {
       taskId,
-      selectedAgents: input.selected_agents,
+      selectedAgents,
       reasoning: input.reasoning,
       confidence: input.confidence,
     };
