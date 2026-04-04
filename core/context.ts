@@ -56,7 +56,21 @@ export class ContextStore {
       );
     }
 
-    return lines.join("\n");
+    // Guard against unbounded context growth. Each agent turn prepends the full
+    // shared context — if this exceeds ~4k chars, we start burning prompt tokens
+    // on stale data rather than the actual task.
+    const result = lines.join("\n");
+    if (result.length > 4000) {
+      log.warn("Context string exceeded 4000 chars — truncating to prevent token bleed", {
+        charsBefore: result.length,
+      });
+      return result.slice(0, 4000) + "\n[...context truncated]";
+    }
+    return result;
+  }
+
+  getContextSizeChars(): number {
+    return this.toPromptContext().length;
   }
 }
 
