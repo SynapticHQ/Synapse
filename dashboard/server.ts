@@ -9,7 +9,7 @@ export function startDashboard(orchestrator: Orchestrator): void {
 
   const server = Bun.serve({
     port: config.DASHBOARD_PORT,
-    fetch(req) {
+    fetch(req: Request) {
       const url = new URL(req.url);
 
       if (url.pathname === "/health") {
