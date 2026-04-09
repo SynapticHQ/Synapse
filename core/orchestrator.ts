@@ -63,26 +63,32 @@ export class Orchestrator {
       const nonExecutorAgents = routing.selectedAgents.filter((id) => id !== "executor");
       const runExecutor = routing.selectedAgents.includes("executor");
 
-      const sharedContext = this.context.toPromptContext();
+      let runningContext = this.context.toPromptContext();
       const prelimResults: AgentResult[] = [];
 
       // Run defi + market agents first
       for (const agentId of nonExecutorAgents) {
         const agent = createAgent(agentId as AgentId);
-        const result = await agent.run(task.id, prompt, sharedContext);
+        const result = await agent.run(task.id, prompt, runningContext);
         prelimResults.push(result);
         cycle.agentInvocations++;
 
         if (result.success && result.output) {
           this.context.recordDecision(task.id, `${agentId}: ${result.output.slice(0, 100)}`);
+          runningContext = [
+            runningContext,
+            `\n## ${agentId} output:\n${result.output}`,
+          ].join("\n");
         }
       }
 
       // Run executor with aggregated context
       if (runExecutor) {
         const aggregatedContext = [
-          sharedContext,
-          ...prelimResults.map((r) => `\n## ${r.agentId} output:\n${r.output}`),
+          runningContext,
+          ...prelimResults
+            .filter((r) => !runningContext.includes(`## ${r.agentId} output:`))
+            .map((r) => `\n## ${r.agentId} output:\n${r.output}`),
         ].join("\n");
 
         const executor = createAgent("executor");
