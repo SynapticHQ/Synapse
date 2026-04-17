@@ -18,18 +18,63 @@ async function main() {
   });
 
   const orchestrator = new Orchestrator();
-  startDashboard(orchestrator);
+
+  try {
+    startDashboard(orchestrator);
+  } catch (err) {
+    log.error("Dashboard startup failed", {
+      error: err instanceof Error ? err.message : String(err),
+      port: config.DASHBOARD_ENABLED ? config.DASHBOARD_PORT : null,
+    });
+  }
 
   const runCycle = async () => {
+    const startedAt = Date.now();
     log.info("Running cycle");
-    await orchestrator.process(DEFAULT_TASK);
+
+    try {
+      await orchestrator.process(DEFAULT_TASK);
+    } finally {
+      const durationMs = Date.now() - startedAt;
+      log.info("Cycle complete", { durationMs });
+
+      if (durationMs > config.CYCLE_INTERVAL_MS) {
+        log.warn("Synapse cycle exceeded configured interval", {
+          durationMs,
+          intervalMs: config.CYCLE_INTERVAL_MS,
+        });
+      }
+    }
   };
 
-  // First cycle immediately
-  await runCycle();
+  let cycleInFlight = false;
+  let skippedCycles = 0;
 
-  // Then on interval
-  setInterval(runCycle, config.CYCLE_INTERVAL_MS);
+  const tick = async () => {
+    if (cycleInFlight) {
+      skippedCycles++;
+      log.warn("Skipping cycle because the previous orchestration run is still active", {
+        skippedCycles,
+      });
+      return;
+    }
+
+    cycleInFlight = true;
+    try {
+      await runCycle();
+    } catch (err) {
+      log.error("Cycle failed", {
+        error: err instanceof Error ? err.message : String(err),
+      });
+    } finally {
+      cycleInFlight = false;
+    }
+  };
+
+  await tick();
+  setInterval(() => {
+    void tick();
+  }, config.CYCLE_INTERVAL_MS);
   log.info(`Next cycle in ${config.CYCLE_INTERVAL_MS / 60000} minutes`);
 }
 
@@ -37,5 +82,3 @@ main().catch((err) => {
   console.error("Fatal:", err);
   process.exit(1);
 });
-
-
