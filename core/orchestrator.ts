@@ -2,7 +2,7 @@ import { createLogger } from "./logger.js";
 import { config } from "./config.js";
 import { TaskRouter } from "./router.js";
 import { ContextStore } from "./context.js";
-import { createAgent } from "../agents/base.js";
+import { createAgent } from "../agents/registry.js";
 import type {
   AgentId,
   AgentResult,

@@ -2,7 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { config } from "./config.js";
 import { createLogger } from "./logger.js";
 import type { AgentId, RoutingDecision } from "./types.js";
-import { AGENT_REGISTRY } from "../agents/base.js";
+import { AGENT_REGISTRY } from "../agents/registry.js";
 
 const log = createLogger("Router");
 

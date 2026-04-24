@@ -1,7 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { config } from "../core/config.js";
 import { createLogger } from "../core/logger.js";
-import type { AgentDefinition, AgentId, AgentResult } from "../core/types.js";
+import type { AgentDefinition, AgentResult } from "../core/types.js";
 
 export { AgentDefinition };
 
@@ -116,23 +116,4 @@ export abstract class BaseAgent {
   }
 }
 
-// ─── Agent registry ───────────────────────────────────────────────────────────
-
-import { DefiAgent } from "./defi.js";
-import { MarketAgent } from "./market.js";
-import { ExecutorAgent } from "./executor.js";
-
-export const AGENT_REGISTRY: Record<AgentId, AgentDefinition> = {
-  "defi-agent": new DefiAgent().definition,
-  "market-agent": new MarketAgent().definition,
-  "executor": new ExecutorAgent().definition,
-};
-
-export function createAgent(id: AgentId): BaseAgent {
-  switch (id) {
-    case "defi-agent": return new DefiAgent();
-    case "market-agent": return new MarketAgent();
-    case "executor": return new ExecutorAgent();
-  }
-}
 
