@@ -11,13 +11,13 @@ A multi-agent MCP orchestrator for Solana DeFi. Send a task — Synapse routes i
 
 <img src="assets/preview-dashboard.png" alt="Synapse multi-agent orchestrator dashboard" width="100%" />
 
-Live orchestration board for Synapse: incoming task, router decision, ranked action plan, agent outputs, confidence scores, token usage, and execution state across the DeFi, market, and executor agents.
+Live orchestration board for Synapse: incoming task queue, selected task detail, active route through router, DeFi, market, and executor agents, ranked action plan, context accumulation, token timing, guardrails, and system status.
 
 ## Routing Workflow
 
 <img src="assets/preview-routing.png" alt="Synapse routing workflow" width="100%" />
 
-How Synapse routes work: classify the task, dispatch only the needed specialists, merge their outputs, enforce confidence gates, and return one synthesized action plan instead of three disconnected agent replies.
+How Synapse routing works: classify the task, choose only the needed specialists, collect tool-backed outputs, merge context, enforce confidence gates, and return one ranked action plan instead of disconnected agent replies.
 
 ---
 
